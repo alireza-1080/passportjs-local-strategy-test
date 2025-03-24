@@ -4,11 +4,6 @@ import prisma from '../services/prisma.service.js'
 import validatePassword from '../utils/validatePassword.js'
 import { IVerifyOptions } from 'passport-local'
 
-const customFields = {
-  usernameField: 'identifier',
-  passwordField: 'password',
-}
-
 const verifyCallback = async (
   username: string,
   password: string,
@@ -39,7 +34,7 @@ const verifyCallback = async (
   }
 }
 
-const strategy = new LocalStrategy(customFields, verifyCallback)
+const strategy = new LocalStrategy(verifyCallback)
 
 passport.use(strategy)
 
@@ -55,6 +50,7 @@ passport.deserializeUser(async (id: string, done) => {
       where: {
         id,
       },
+      select: { id: true, username: true },
     })
 
     if (!user) {

@@ -42,6 +42,20 @@ router.post('/register', async (req: Request<object, object, RegisterRequestBody
   }
 })
 
-router.post('/login', passport.authenticate('local', {}), (_req: Request, _res: Response) => {})
+router.post(
+  '/login',
+  passport.authenticate('local', { failureMessage: 'Invalid credential', successMessage: 'Login successful' }),
+  (req: Request, res: Response) => {
+    res.status(200).json({
+      message: 'Login successful',
+      user: { id: req.user?.id, username: req.user?.username },
+    })
+  }
+)
+
+router.get('/logout', (req: Request, res: Response) => {
+  // req.logOut()
+
+})
 
 export default router
