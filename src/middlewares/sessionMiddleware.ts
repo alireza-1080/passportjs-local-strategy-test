@@ -15,7 +15,7 @@ const store = MongoStore.create({
 const sessionMiddleware = session({
   secret,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store,
   cookie: {
     httpOnly: true,
